@@ -1,23 +1,19 @@
-const express = require("express");
-const {
-  getAllBooks,
-  getSingleBookById,
-  updateBook,
-  deleteBook,
-  addNewBook,
-  
-} = require("../controllers/controller");
+const http = require("http");
+const server = http.createServer((req, res) => {
+  const url = req.url;
+  if (url === "/") {
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    res.end("Home page");
+  } else if (url === "/projects") {
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    res.end("Projects");
+  } else {
+    res.writeHead(404, { "Content-Type": "text/plain" });
+    res.end("This page can not be found!");
+  }
+});
 
-//create express router
-const router = express.Router();
-
-//all routes that are related to books only
-router.get("/get", getAllBooks);
-
-router.get("/get/:id", getSingleBookById);
-router.post("/add", addNewBook);
-router.put("/update/:id", updateBook);
-router.delete("/delete/:id", deleteBook);
-
-
-module.exports = router;
+const port = 3000;
+server.listen(port, () => {
+  console.log(`Server is now listening to port ${port}`);
+});
